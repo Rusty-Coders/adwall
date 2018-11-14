@@ -1,0 +1,6 @@
+[package]
+name = "adwall"
+version = "0.1.0"
+authors = ["Darren Hobin <darrenhobin@live.com>"]
+
+[dependencies]
