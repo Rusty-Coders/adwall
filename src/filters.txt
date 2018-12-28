@@ -1,0 +1,11 @@
+@@||trafficshop.com/show.php$script,domain=palimas.com
+&ad_network_
+&pltype=adhost^
+-2/ads/
++advertorial.
+.adgoitechnologie.
+.advert.$domain=~advert.ae|~advert.io|~advert.ly
+.com/ad/$~third-party,domain=~blogs.technet.microsoft.com|~channel4.com|~cspace.com|~linkedin.com|~mediaplex.com|~online.wsj.com
+.swf?clicktag=
+/!advert_
+/ad-creatives-

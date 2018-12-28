@@ -1,6 +1,6 @@
 [package]
 name = "adwall"
 version = "0.1.0"
-authors = ["Darren Hobin <darrenhobin@live.com>"]
+authors = ["Darren Hobin <darrenhobin@live.com>", "Stoner Nanua <WeedWizard420@gmail.com>", "Swapnil Shah <swapnilshahmail@gmail.com>"]
 
 [dependencies]
