@@ -15,6 +15,10 @@ fn isException() {
 //
 }
 
+fn filter_webpage(std::str webpage) -> std::str{
+    // filters webpage using all the rules and returns
+    // the result
+}
 
 #[cfg(test)]
 mod tests {
