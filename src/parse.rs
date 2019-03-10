@@ -1,23 +1,28 @@
 
 fn parseWebpage() {
+    unimplemented!()
 //
 }
 
 fn parseFilterLists() {
+    unimplemented!()
 // read through lists and store in memory into respective data structures
 }
 
 fn isBlocked() {
+    unimplemented!()
 // Search through isBlocked Data Structure to see if theres a hit
 }
 
 fn isException() {
+    unimplemented!()
 //
 }
 
-fn filter_webpage(std::str webpage) -> std::str{
+fn filter_webpage(webpage: String) -> String{
     // filters webpage using all the rules and returns
     // the result
+    unimplemented!()
 }
 
 #[cfg(test)]
@@ -38,9 +43,11 @@ mod tests {
     }
 
     fn testIsBlocked() {
+        unimplemented!()
 
     }
     fn testIsException() {
+        unimplemented!()
 
     }
 }
