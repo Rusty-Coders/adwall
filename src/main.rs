@@ -801,6 +801,50 @@ fn recursive_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
     }
 }
 
+fn hardcoded_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
+    match qtype {
+        QueryType::A => {
+            let header =    DnsHeader {
+                                id: 6666,
+
+                                recursion_desired: true,
+                                truncated_message: false,
+                                authoritative_answer: false,
+                                opcode: 0,
+                                response: true,
+
+                                rescode: ResultCode::NOERROR,
+                                checking_disabled: false,
+                                authed_data: false,
+                                z: false,
+                                recursion_available: true,
+
+                                questions: 1,
+                                answers: 1,
+                                authoritative_entries: 0,
+                                resource_entries: 0,
+                            };
+
+            let answer =    DnsRecord::A {
+                                domain: qname.to_string(),
+                                addr: Ipv4Addr::new(52, 2, 63, 75),
+                                ttl: 86400,
+                            };
+
+            let packet =    DnsPacket {
+                                header: header,
+                                questions: vec![DnsQuestion::new(qname.to_string(), qtype)],
+                                answers: vec![answer],
+                                authorities: Vec::new(),
+                                resources: Vec::new(),
+                            };
+
+            Ok(packet)
+        },
+        _ => recursive_lookup(qname, qtype)
+    }
+}
+
 fn main() {
     let socket = UdpSocket::bind(("127.0.0.1", 53)).unwrap();
 
@@ -835,7 +879,7 @@ fn main() {
             let question = &request.questions[0];
             println!("Received query: {:?}", question);
 
-            if let Ok(result) = recursive_lookup(&question.name, question.qtype) {
+            if let Ok(result) = hardcoded_lookup(&question.name, question.qtype) {
                 packet.questions.push(question.clone());
                 packet.header.rescode = result.header.rescode;
 
