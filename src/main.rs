@@ -1,4 +1,4 @@
-use std::io::{Result, Read};
+use std::io::{Result};
 use std::io::{Error, ErrorKind};
 use std::net::{Ipv4Addr,Ipv6Addr};
 use std::net::UdpSocket;
@@ -845,8 +845,40 @@ fn hardcoded_lookup(qname: &str, qtype: QueryType) -> Result<DnsPacket> {
     }
 }
 
+pub struct DnsDatabase {
+    pub database: Vec<String>,
+    pub base_ip: usize,
+    index: usize,
+    size: usize
+}
+
+impl DnsDatabase {
+    pub fn new(size: usize, ip_addr: usize) -> DnsDatabase {
+        DnsDatabase {
+            database: vec!["".to_string(); size],
+            base_ip: ip_addr,
+            index: 0,
+            size: size
+        }
+    }
+
+    pub fn add_domain(&mut self, domain: String) {
+        self.database[self.index] = domain;
+        self.index = self.index + 1 % self.size;
+    }
+
+    pub fn get_domain(&mut self, ip_addr: usize) -> String {
+        self.database[ip_addr - self.base_ip].clone()
+    }
+}
+
+const DB_SIZE: usize = 100;
+const RANDOM_IP: usize = 42;
+
 fn main() {
     let socket = UdpSocket::bind(("127.0.0.1", 53)).unwrap();
+    let base_ip = RANDOM_IP;
+    let mut database = DnsDatabase::new(DB_SIZE, base_ip);
 
     loop {
         let mut req_buffer = BytePacketBuffer::new();
@@ -878,6 +910,8 @@ fn main() {
         else {
             let question = &request.questions[0];
             println!("Received query: {:?}", question);
+
+            database.add_domain(question.name.to_string());
 
             if let Ok(result) = hardcoded_lookup(&question.name, question.qtype) {
                 packet.questions.push(question.clone());
